@@ -11,21 +11,14 @@
 #include <complex>
 
 #include "sonar_detection_axi.h"
-// new add
 #include <cmath>
 #include <math.h>
-// new add
 #include <vector>
 
 #include "sonar_detection.h"
-// ml
 #include "nnet_utils/nnet_helpers.h"
 using namespace std;
 
-// const double fs = 5000;
-// const double duration = 4;
-const int num_samples = 8417;
-// load data from file
 const int INPUT_LENGTH = 8417;
 
 float abs_complex_tb(const std::complex<float> &z)
@@ -38,9 +31,6 @@ float abs_complex_tb(const std::complex<float> &z)
 
 int main()
 {
-    // float xn_input[INPUT_LENGTH * 2];
-    // float ml_out[10];
-
     // c data
     vector<std::complex<float>> input_tb(INPUT_LENGTH * 2);
     float abs_input_tb[INPUT_LENGTH];
@@ -107,21 +97,15 @@ int main()
         }
     }
 
-    // cout << "checkpoint1" << endl;
-
     for (int i = 0; i < INPUT_LENGTH; ++i)
     {
         input_tb[i].real(data_real[i]);
     }
 
-    // cout << "checkpoint2" << endl;
-
     for (int i = 0; i < INPUT_LENGTH; ++i)
     {
         input_tb[i].imag(data_imag[i]);
     }
-
-    // cout << "checkpoint3" << endl;
 
     for (unsigned i = 0; i < INPUT_LENGTH; ++i)
     {
@@ -130,18 +114,10 @@ int main()
         abs_input_tb[i] = std::log(abs_input_tb[i] + 1); // Add 1 to avoid log(0)
     }
 
-    // cout << "checkpoint4" << endl;
-
-    // std::partial_sort(abs_input_tb, abs_input_tb + 10, abs_input_tb + INPUT_LENGTH / 2, std::greater<float>());
-
-    // cout << "checkpoint5" << endl;
-
     for (unsigned i = 0; i < 10; ++i)
     {
         ml_out_tb[i] = abs_input_tb[i];
     }
-
-    // cout << "checkpoint6" << endl;
 
     input_axi_t inputs[INPUT_LENGTH * 2];
     nnet::copy_data_axi<float, input_axi_t, 0, INPUT_LENGTH * 2>(xn_input, inputs);
