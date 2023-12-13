@@ -15,13 +15,7 @@ void sonar_detection_axi(input_axi_t in[N_IN], output_axi_t out[N_OUT])
 
 #pragma HLS STREAM variable = in_local depth = 1024
 #pragma HLS STREAM variable = out_local depth = 1
-
-    // for (int i = 0; i < N_IN; ++i)
-    //{
-    //     in_local.write(in[i].data);
-    //     is_last |= (in[i].last == 1) ? true : false;
-    // }
-
+    
     for (int i = 0; i < N_IN; ++i)
     {
         input_axi_t tmp_in = in[i];
