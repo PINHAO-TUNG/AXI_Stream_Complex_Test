@@ -21,7 +21,7 @@ void sonar_detection(
     hls::stream<float> &ml_out)
 {
 #pragma HLS DATAFLOW
-    // hls::x_complex<float> input[input_data_size / 2];
+
     std::complex<float> input[input_data_size / 2];
     float abs_input[input_data_size / 2];
 
@@ -41,7 +41,7 @@ LoadData:
         }
     }
 
-// Additional operations: Multiply by 5, take absolute value, and take logarithm
+    // Additional operations: Multiply by 5, take absolute value, and take logarithm
 ABSLog:
     for (unsigned i = 0; i < input_data_size / 2; ++i)
     {
@@ -50,10 +50,7 @@ ABSLog:
         abs_input[i] = std::log(abs_input[i] + 1); // Add 1 to avoid log(0)
     }
 
-    // Sorting the array to get the top 10 values
-    // std::partial_sort(abs_input, abs_input + 10, abs_input + input_data_size / 2, std::greater<float>());
-
-    // Output the top 10 values to ml_out
+    // Output the first 10 values to ml_out
     for (unsigned i = 0; i < 10; ++i)
     {
         ml_out.write(abs_input[i]);
